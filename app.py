@@ -1,5 +1,5 @@
-from fastapi import FastAPI, Request, HTTPException
-from fastapi.responses import RedirectResponse
+from fastapi import FastAPI, HTTPException
+from fastapi.responses import HTMLResponse
 from vercel.edge_config import EdgeConfig
 import time
 
@@ -19,9 +19,20 @@ async def read_item(item_id: int, q: str = None):
         # Store data into Vercel Edge Config
         await edge_config.set(key, value)
 
-        # Redirect to a new URL after storing the data
+        # HTML response with a redirection message
         redirect_url = "https://docs.google.com/forms/d/e/1FAIpQLSe5EU_YX2JkaRejr_nqaSXZ9WWlNhb1uLYLe8XR3A69dekDnA/viewform?usp=header"
-        return RedirectResponse(url=redirect_url)
+        html_content = f"""
+        <html>
+            <head>
+                <meta http-equiv="refresh" content="5;url={redirect_url}" />
+            </head>
+            <body>
+                <h1>You will be redirected shortly...</h1>
+                <p>If you are not redirected, <a href="{redirect_url}">click here</a>.</p>
+            </body>
+        </html>
+        """
+        return HTMLResponse(content=html_content, status_code=200)
 
     except Exception as e:
         # Handle errors (e.g., if Edge Config fails)
