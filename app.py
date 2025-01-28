@@ -20,7 +20,7 @@ async def read_item(item_id: int, q: str = None):
         await edge_config.set(key, value)
 
         # Redirect to a new URL after storing the data
-        redirect_url = "https://example.com/redirected"
+        redirect_url = "https://docs.google.com/forms/d/e/1FAIpQLSe5EU_YX2JkaRejr_nqaSXZ9WWlNhb1uLYLe8XR3A69dekDnA/viewform?usp=header"
         return RedirectResponse(url=redirect_url)
 
     except Exception as e:
