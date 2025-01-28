@@ -5,6 +5,13 @@ import time
 
 app = FastAPI()
 
+app.mount("/static", StaticFiles(directory='static'), name="static")
+
+@app.get("/")
+async def redirect_page():
+    # Serve the static HTML file
+    return HTMLResponse(content=open("static/redirect.html").read(), status_code=200)
+
 # Initialize Edge Config client
 edge_config = EdgeConfig()
 
